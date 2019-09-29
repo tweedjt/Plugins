@@ -1,26 +1,24 @@
 package me.tweedjt.AutoSmelt;
 
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.Arrays;
+//import java.util.List;
 import java.util.Random;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+//import org.bukkit.command.Command;
+//import org.bukkit.command.CommandExecutor;
+//import org.bukkit.command.CommandSender;
+//import org.bukkit.command.TabCompleter;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
+//import org.bukkit.inventory.meta.ItemMeta;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.LocalPlayer;
@@ -32,7 +30,7 @@ import com.sk89q.worldguard.protection.flags.StateFlag.State;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 
-import net.md_5.bungee.api.ChatColor;
+//import net.md_5.bungee.api.ChatColor;
 
 public class BlockListener implements Listener {
 	@EventHandler
@@ -67,16 +65,17 @@ public class BlockListener implements Listener {
 	    
 	    ItemStack hand = player.getInventory().getItemInMainHand(); // Item in the main hand
 	    
-	    
-	   boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	    //START CODE SMELT PICK
+	    /*
+	   boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) { 
 	    	
 	    	if(sender instanceof Player) {
 	    		Player player = (Player) sender;
 	    		
 	    		
 	    		
-	            // Custom Pickaxe
-	    		ItemStack smeltPick = new ItemStack(Material.DIAMOND_PICKAXE, 1);
+	             Custom Pickaxe
+	    		ItemStack smeltPick = new ItemStack(Material.DIAMOND_PICKAXE, 1); 
 	  		  if (hand != null) { 
 	  			  ItemMeta itemMeta = hand.getItemMeta(); if (itemMeta != null) { 
 	  			  boolean loreMatch = false; List<String> lore = itemMeta.getLore();
@@ -93,7 +92,7 @@ public class BlockListener implements Listener {
 	  		  }
 	  		  }
 	    		
-		        switch (event.getBlock().getType()) {
+		        switch (event.getBlock().getType()) { //but all this down is the method of the pickaxe
 		            case GOLD_ORE:
 		                drop = Material.GOLD_INGOT;
 		                	
@@ -117,19 +116,19 @@ public class BlockListener implements Listener {
                 }
 	  		  
 	  		  
-	    		player.getInventory(smeltPick);
+	   // 		player.getInventory(smeltPick); //ending here
 	    		
 	    		
 	    		
 	    		
-	    	}
-	    	return true;
-	    }
+	   // 	}
+	   // 	return true;
+	 //   }
 	
 	
-	
+	//END CODE SMELT PICK
 
-		 
+		*/ 
 
 
 
@@ -145,9 +144,7 @@ public class BlockListener implements Listener {
 	            case GOLD_ORE:
 	                //System.out.println("Gold ore found - set drop to gold ingot");
 	                drop = Material.GOLD_INGOT;
-	                
 
-	                
 	            		
 	                break;
 	            case IRON_ORE:
@@ -255,7 +252,3 @@ public class BlockListener implements Listener {
 
      }
 }
-
-
-
-	

@@ -8,7 +8,7 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		// This event is called when a player joins the server
-		
+
 		if (event.getPlayer() != null) {
 			// Check if the player has auto-smelt on
 			if (AutoSmelt.getInstance().hasSmelt(event.getPlayer().getUniqueId())) {
