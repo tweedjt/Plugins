@@ -1,0 +1,18 @@
+#                           #
+#   AutoSmelt by: tweedjt   #
+#                           #
+
+#Is AutoSmelt on by default
+auto_smelt: false
+
+#Are Drops to Inventory on by default
+auto_pickup: true
+
+#On message for /as command
+autosmelt_on_message: AutoSmelt has been turned &aON
+
+#Off message for /as command
+autosmelt_off_message: AutoSmelt has been turned &aOFF
+
+#Message prefix for plugin
+message_prefix: "&d[&fAutoSmelt&d] &r"

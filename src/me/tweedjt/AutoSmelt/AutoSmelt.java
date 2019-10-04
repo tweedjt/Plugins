@@ -15,6 +15,7 @@ import me.tweedjt.autosmelt.bukkitlisteners.BlockListener;
 import me.tweedjt.autosmelt.bukkitlisteners.PlayerListener;
 import me.tweedjt.autosmelt.commands.ASCommandListener;
 import me.tweedjt.autosmelt.commands.SmeltCommandListener;
+import me.tweedjt.autosmelt.util.AutoSmeltConfig;
 import me.tweedjt.autosmelt.util.Log;
 import me.tweedjt.autosmelt.util.Misc;
 
@@ -121,6 +122,12 @@ public class AutoSmelt extends JavaPlugin {
     // On startup 
 	@Override
 	public void onEnable() {
+		
+		instance = this;
+
+		saveDefaultConfig();
+
+		config = new AutoSmeltConfig(this);
 
 		if (hookWorldGuard()) {
 			Log.logToConsole("WorldGuard functionality added");
@@ -148,7 +155,17 @@ public class AutoSmelt extends JavaPlugin {
 		// Player Event listener for when players join
 		Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
 		
+		
+		
 	}
+	
+	private AutoSmeltConfig config;
+    public AutoSmeltConfig getAutoSmeltConfig() {
+        return this.config;
+    }
+    public void setAutoSmeltConfig(AutoSmeltConfig config) {
+        this.config = config;
+    }
 	
 	// On shutdown
 	@Override

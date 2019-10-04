@@ -32,18 +32,17 @@ public class ASCommandListener implements CommandExecutor {
 						Message.toPlayer("Sorry, you do not have permission to run that command", player);
 						return true;
 					}
-					
 					// Check if the player has auto-smelt turned on
 					if (AutoSmelt.getInstance().hasSmelt(player.getUniqueId())) {
 						Log.logToConsole("Player has smelt on - turn it off"); // Comment this out for release
 						// Player already has smelt on - turn it off
 						AutoSmelt.getInstance().removeSmelt(player.getUniqueId());
-						Message.toPlayer("AutoSmelt has been turned off", player);
+						Message.toPlayer(AutoSmelt.getInstance().getAutoSmeltConfig().getAutoSmeltOnMessage(), player);
 					} else {
 						Log.logToConsole("Player has smelt off - turn it on"); // Comment this out for release
 						// Player already has smelt on - turn it off
 						AutoSmelt.getInstance().putSmelt(player.getUniqueId());
-						Message.toPlayer("AutoSmelt has been turned on", player);
+						Message.toPlayer(AutoSmelt.getInstance().getAutoSmeltConfig().getAutoSmeltOffMessage(), player);
 					}
 				} else {
 					// A non-player (console) called the command

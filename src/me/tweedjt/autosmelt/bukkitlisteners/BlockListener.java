@@ -165,8 +165,42 @@ public class BlockListener implements Listener {
                 hand.setItemMeta(handMeta); // Set the meta back to the itemstack
         	}
 
+            boolean dropItem = false; // Default to false
             
+            block.setType(Material.AIR); // Clear the block
+
+            // Check if auto-pickup is on
+            if (AutoSmelt.getInstance().getAutoSmeltConfig().getAutoPickup()) {
+            	
+                // Auto-Pickup is on, so check the players first empty slot                
+                if(player.getInventory().firstEmpty() == -1) {
+                	
+                    // No empty slots - drop the item
+                    dropItem = true;
+                } else {
+                	
+                    // empty slot found, place item in inventory
+                    player.getInventory().addItem(new ItemStack(drop, dropAmount)); // Places the ore/ingot directly into player inventory
+                }
+            }
+            else {
+            	
+                // auto-pickup is off, so drop the item
+                dropItem = true;
+            }
             
+            if (dropItem) {
+                // drop the item
+                block.getWorld().dropItemNaturally(block.getLocation().add(0.5D, 0.5D, 0.5D), new ItemStack(drop, dropAmount)); // Drops the Item
+            }
+            
+            event.setCancelled(true); // Cancels the event which stops the block from naturally breaking
+            	
+            }
+            	
+          /*  
+            	LEGACY CODE
+            	
             if(player.getInventory().firstEmpty() == -1) {
             	block.setType(Material.AIR); // Clear the block
             	block.getWorld().dropItemNaturally(block.getLocation().add(0.5D, 0.5D, 0.5D), new ItemStack(drop, dropAmount)); // Drops the Item
@@ -178,12 +212,8 @@ public class BlockListener implements Listener {
             }
         
 
-        } else {
-        	// You could log here, but only if troubleshooting
-        	Log.debugToConsole("Not allowing auto-smelting");
-        	return;
+        } 
+        */
         }
-
-	    
 	}
-}
+
