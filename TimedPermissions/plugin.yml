@@ -1,0 +1,14 @@
+name: TimedPermissions
+author: tweedjt
+version: 1.0
+api-version: 1.13
+main: me.tweedjt.timedpermissions.TimedPermissions
+commands:
+    TPerm:
+      description: gives temp perm to player
+      usage: /<command>
+      aliases: [tperm]
+    TPReload:
+      description: Reloads Config
+      usage: /<command>
+      aliases: [tpreload]

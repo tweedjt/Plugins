@@ -1,0 +1,9 @@
+#								   #
+#   TimedPermissions by: tweedjt   #
+#								   #
+
+#do not set to true! Will flood console!
+debug: false
+
+#Prefix of plugin on messages
+message_prefix: "&d[&fTimedPermissions&d] &r"

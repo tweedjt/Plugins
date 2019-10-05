@@ -1,0 +1,11 @@
+users:
+  e0bddefb-b99f-4d19-af8e-a385aec5211f:
+    perm: autosmelt.mine
+    created: 1560883001117
+    expires: 1560883151254
+    createdby: 0ded601a-5e89-414e-ab7b-a04076f4a5d9
+  33520f40-b993-422e-b7ed-34b8e75aef3a:
+    perm: autosmelt.give
+    created: 1560832501117
+    expires: 1560883643254
+    createdby: 0ded601a-5e89-414e-ab7b-a04076f4a5d9
