@@ -11,6 +11,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ExpBottleEvent;
 import org.bukkit.inventory.ItemStack;
 import me.tweedjt.autopickup.AutoPickup;
+import me.tweedjt.autopickup.util.Log;
 
 public class BlockListener implements Listener {
 
@@ -44,54 +45,114 @@ public class BlockListener implements Listener {
 	}
 
 	@EventHandler
+
 	public void onBlockBreak(BlockBreakEvent event) {
+
+		if (event.isCancelled()) {
+			// Check if some other plugin cancelled the event, if so, do nothing
+			// Log.logToConsole("Event is already cancelled");
+			return;
+		}
+
 		Player player = event.getPlayer();
 		Block block = event.getBlock(); // Get the block being broken
-	    Material drop = Material.AIR; // The material to drop
-	    int dropAmount = 1; // The amount to drop
-		 block.setType(Material.AIR); 
-		 boolean dropItem = false; // Default to false
-		
-		if (autoPickup) {
-			
-			 if(player.getInventory().firstEmpty() == -1) {
+		block.setType(Material.AIR);
+		boolean dropItem = false; // Default to false
+		ItemStack hand = event.getPlayer().getInventory().getItemInMainHand();
 
-                 dropItem = true;
-             } else {
-             	
-                 // empty slot found, place item in inventory
-                 player.getInventory().addItem(new ItemStack(drop, dropAmount)); // Places the ore/ingot directly into player inventory
-                 
-                 	}
-             }else {
-         	
-             // auto-pickup is off, so drop the item
-             dropItem = true;
-         }
-         
-         if (dropItem) {
-             // drop the item
-             block.getWorld().dropItemNaturally(block.getLocation().add(0.2D, 0.2D, 0.2D), new ItemStack(drop, dropAmount)); // Drops the Item
-             
-         }else {
-         		return;
-         	}
-         
+		boolean allowAutoPickup = false; // We'll use this to decide if we want to allow auto-smelting
+		boolean hasPickaxe = false;
+		switch (hand.getType()) {
+		case DIAMOND_PICKAXE:
+		case GOLDEN_PICKAXE:
+		case IRON_PICKAXE:
+		case STONE_PICKAXE:
+		case WOODEN_PICKAXE:
+			hasPickaxe = true;
+			// Log.debugToConsole("Tool in hand is pickaxe");
+			break;
+		default:
+			// Log.debugToConsole("Tool in hand is not pickaxe");
+			break;
+		}
 
-	 event.setCancelled(true); 
- 	
-	 //CODE END FOR AUTOPICKUP
-		
-		if (this.dropGlass) {
-
-			if ((block.getType() == Material.GLASS) && this.dropGlass) {
-
-				ItemStack item = new ItemStack(block.getType(), 1);
-
-				block.getWorld().dropItemNaturally(block.getLocation(), item);
+		if (event.getPlayer().hasPermission("autosmelt.mine") && hasPickaxe) {
+			// Log.debugToConsole("Player has permission and has a pickaxe");
+			// We have a pick and permission
+			if (AutoPickup.getInstance().hasPickup(event.getPlayer().getUniqueId())) {
+				// We have pick and permission, and autosmelting is turned on for this player
+				// Log.debugToConsole("AutoSmelting is turned on");
+				allowAutoPickup = true;
+			} else {
+				// We have pick and permission, but autosmelting is turned off for this player
+				// Log.debugToConsole("AutoSmelting is turned off");
 			}
 
-			event.setExpToDrop(0);
+			// Player is not in Survival mode
+			Log.debugToConsole("Player is not in survival mode");
+			allowAutoPickup = false;
+
+			if (block.getDrops(hand).isEmpty()) {
+				// There are no drops
+				Log.debugToConsole("There are no drops");
+				allowAutoPickup = false;
+			}
+
+			if (allowAutoPickup) {
+
+				Log.debugToConsole("Allowing Auto-Pickup");
+
+				ItemStack itemStack = new ItemStack(block.getType(), 1);
+
+				if (autoPickup) {
+
+					if (player.getInventory().firstEmpty() == -1) {
+
+						dropItem = true;
+
+					} else {
+						if (block != null) {
+							if (block.getType() != null) {
+
+								if (itemStack != null) {
+									player.getInventory().addItem(itemStack);
+
+								}
+							}
+						}
+					}
+
+				} else {
+
+					// auto-pickup is off, so drop the item
+					dropItem = true;
+				}
+
+				if (dropItem) {
+					// drop the item
+					block.getWorld().dropItemNaturally(block.getLocation().add(0.2D, 0.2D, 0.2D),
+							new ItemStack(itemStack)); // Drops the Item
+
+				} else {
+					return;
+				}
+
+				event.setCancelled(true);
+
+				// CODE END FOR AUTOPICKUP
+
+				if (this.dropGlass) {
+
+					if ((block.getType() == Material.GLASS) && this.dropGlass) {
+
+						ItemStack item = new ItemStack(block.getType(), 1);
+
+						block.getWorld().dropItemNaturally(block.getLocation(), item);
+					}
+
+					event.setExpToDrop(0);
+				}
+			}
 		}
 	}
 
