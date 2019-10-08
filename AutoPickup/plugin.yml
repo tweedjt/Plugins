@@ -1,0 +1,14 @@
+name: AutoPickup
+author: tweedjt
+version: 1.0
+api-version: 1.13
+main: me.tweedjt.autopickup.AutoPickup
+commands:
+    AutoPickup:
+      description: Toggles Smelting
+      usage: /<command>
+      aliases: [ap, autopickup]
+    APReload:
+      description: Reloads Config
+      usage: /<command>
+      aliases: [apreload]
