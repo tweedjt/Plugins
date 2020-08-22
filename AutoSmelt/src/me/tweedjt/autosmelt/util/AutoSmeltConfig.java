@@ -7,7 +7,10 @@ public class AutoSmeltConfig {
     private boolean autoPickup = false;
     private boolean autoSmelt = false;
     private boolean expDrop = false;
-    private int expValue = 1;
+    private boolean fortuneDrop = false;
+    private int ironExp = 1;
+    private int goldExp = 1;
+    private int netherScrapExp = 2;
     private String messagePrefix = "&6[&fAutoSmelt&6] &r";
     private String autoSmeltOffMessage = "AutoSmelt has been turned off";
     private String autoSmeltOnMessage = "AutoSmelt has been turned on";
@@ -21,8 +24,17 @@ public class AutoSmeltConfig {
    public boolean getExpDrops() {
 	   return this.expDrop;
    }
-   public int getExpValue() {
-	   return this.expValue;
+   public boolean getFortuneDrops() {
+	   return this.fortuneDrop;
+   }
+   public int getIronExp() {
+	   return this.ironExp;
+   }
+   public int getGoldExp() {
+	   return this.goldExp;
+   }
+   public int getNetherScrapExp() {
+	   return this.netherScrapExp;
    }
     public String getMessagePrefix() {
         return this.messagePrefix;
@@ -81,7 +93,21 @@ public class AutoSmeltConfig {
         	}
         }
         	catch (Exception ex) {
-        		autoPickup = true;
+        		expDrop = true;
+        	}
+        //EXP Orb Drops
+        try {
+        	if (plugin.getConfig().contains("fortune_drops"))
+        	{
+        		if (plugin.getConfig().isBoolean("fortune_drops")) {
+        			this.fortuneDrop = plugin.getConfig().getBoolean("fortune_drops");
+        		} else {
+        			fortuneDrop = false;
+        		}
+        	}
+        }
+        	catch (Exception ex) {
+        		fortuneDrop = true;
         	}
 
         
@@ -145,18 +171,48 @@ public class AutoSmeltConfig {
          
         }
         try {
-        	if (plugin.getConfig().contains("exp_value"))
+        	if (plugin.getConfig().contains("iron_exp"))
         	{
-        		if (plugin.getConfig().isInt("exp_value")) {
-        			this.expValue = plugin.getConfig().getInt("exp_value");
+        		if (plugin.getConfig().isInt("iron_exp")) {
+        			this.ironExp = plugin.getConfig().getInt("iron_exp");
         		} else {
-        			expValue = 1;
+        			ironExp = 1;
         		}
         	} else {
-        		expValue = 1;
+        		ironExp = 1;
         	}
         	} catch (Exception ex) {
-        		expValue = 1;
+        		ironExp = 1;
+        	}
+        
+        try {
+        	if (plugin.getConfig().contains("gold_exp"))
+        	{
+        		if (plugin.getConfig().isInt("gold_exp")) {
+        			this.goldExp = plugin.getConfig().getInt("gold_exp");
+        		} else {
+        			goldExp = 1;
+        		}
+        	} else {
+        		goldExp = 1;
+        	}
+        	} catch (Exception ex) {
+        		goldExp = 1;
+        	}
+        
+        try {
+        	if (plugin.getConfig().contains("nether_scrap_exp"))
+        	{
+        		if (plugin.getConfig().isInt("nether_scrap_exp")) {
+        			this.netherScrapExp = plugin.getConfig().getInt("nether_scrap_exp");
+        		} else {
+        			netherScrapExp = 2;
+        		}
+        	} else {
+        		netherScrapExp = 2;
+        	}
+        	} catch (Exception ex) {
+        		netherScrapExp = 2;
         	}
     }
 }

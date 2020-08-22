@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -50,6 +49,9 @@ public class BlockListener implements Listener {
         	//Log.logToConsole("Block at location is Iron Ore");
             drop = Material.IRON_INGOT;
             break;
+        case ANCIENT_DEBRIS:
+        	drop = Material.NETHERITE_SCRAP;
+        	break;
         default:
         	// It isn't gold or iron ore, exit out
         	return;
@@ -69,6 +71,7 @@ public class BlockListener implements Listener {
             case IRON_PICKAXE:
             case STONE_PICKAXE:
             case WOODEN_PICKAXE:
+            case NETHERITE_PICKAXE:
                 hasPickaxe = true;
                // Log.debugToConsole("Tool in hand is pickaxe");
                 break;
@@ -107,6 +110,7 @@ public class BlockListener implements Listener {
         	// Player is not in Survival mode
         	Log.debugToConsole("Player is not in survival mode");
         	allowAutoSmelt = false;
+            block.setType(Material.AIR); // Clear the block
         }
                
         if (block.getDrops(hand).isEmpty()) {
@@ -120,10 +124,13 @@ public class BlockListener implements Listener {
         	Log.debugToConsole("Allowing Auto-Smelt");
         	
         	// Check if the pickaxe has fortune, if so, get a random amount to get
-            if (hand.containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS)) {
+            if (AutoSmelt.getInstance().getAutoSmeltConfig().getFortuneDrops()) {
+           
+            	if (hand.containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS)) {
                 Random rand = new Random();
                 dropAmount = rand.nextInt(hand.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 1) + 1;
-            } 
+            	} 
+            }
             if (hand.containsEnchantment(Enchantment.SILK_TOUCH)) {
  	            	
  	               	
@@ -133,7 +140,11 @@ public class BlockListener implements Listener {
 	    	              
 	    	                break;
 	    	            case IRON_ORE:
-	    	                drop = Material.IRON_ORE;	    	              
+	    	                drop = Material.IRON_ORE;	
+	    	                
+	    	                break;
+	    	            case ANCIENT_DEBRIS:
+	    	            	drop = Material.ANCIENT_DEBRIS;
 	    	                    
 	    	                break;
 	    	            default:
@@ -142,7 +153,7 @@ public class BlockListener implements Listener {
 	    	            
 	                }
 	                
-            	return;
+            	//return;
             } 
             
             // Clear the block
@@ -162,7 +173,8 @@ public class BlockListener implements Listener {
             
             block.setType(Material.AIR); // Clear the block
             Location loc = block.getLocation(); //whatever your location is
-    		World w = block.getWorld(); 
+    		World w = block.getWorld();
+    		
 
             // Check if auto-pickup is on
             if (AutoSmelt.getInstance().getAutoSmeltConfig().getAutoPickup()) {
@@ -177,12 +189,9 @@ public class BlockListener implements Listener {
                     // empty slot found, place item in inventory
                     player.getInventory().addItem(new ItemStack(drop, dropAmount)); // Places the ore/ingot directly into player inventory
                     
-                    	if (AutoSmelt.getInstance().getAutoSmeltConfig().getExpDrops()) {
+                	if (!Misc.xpDrops(drop, w, loc)) {
                     		
-                    		w.spawn(loc, ExperienceOrb.class).setExperience(AutoSmelt.getInstance().getAutoSmeltConfig().getExpValue());
-                    	}
-                    	else {
-                    		return;
+                			return;
                     	}
                 }
             }
@@ -196,18 +205,19 @@ public class BlockListener implements Listener {
                 // drop the item
                 block.getWorld().dropItemNaturally(block.getLocation().add(0.2D, 0.2D, 0.2D), new ItemStack(drop, dropAmount)); // Drops the Item
                 
-                if (AutoSmelt.getInstance().getAutoSmeltConfig().getExpDrops()) {
+            	if (!Misc.xpDrops(drop, w, loc)) {
             		
-            		w.spawn(loc, ExperienceOrb.class).setExperience(AutoSmelt.getInstance().getAutoSmeltConfig().getExpValue());
-            	}
-            	else {
+            		
             		return;
             	}
+                
             }
             
             event.setCancelled(true); // Cancels the event which stops the block from naturally breaking
             	
             }
-        }
+            	
+            }
 	}
+
 

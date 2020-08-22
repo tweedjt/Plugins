@@ -6,9 +6,13 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -92,5 +96,30 @@ public class Misc {
         YamlConfiguration config = new YamlConfiguration();
         config.set("i", itemStack);
         return config.saveToString();
+    }
+    public static boolean xpDrops(Material drop, World w, Location loc) {
+    	
+    	
+    	
+    	if (AutoSmelt.getInstance().getAutoSmeltConfig().getExpDrops()) {
+    		
+    		if (drop.equals(Material.IRON_INGOT)) { 
+    			
+    		w.spawn(loc, ExperienceOrb.class).setExperience(AutoSmelt.getInstance().getAutoSmeltConfig().getIronExp());
+    		
+    		} if (drop.equals(Material.GOLD_INGOT)) {
+    			
+    			w.spawn(loc, ExperienceOrb.class).setExperience(AutoSmelt.getInstance().getAutoSmeltConfig().getGoldExp());
+    		}
+    		if (drop.equals(Material.NETHERITE_SCRAP)) {
+    			w.spawn(loc, ExperienceOrb.class).setExperience(AutoSmelt.getInstance().getAutoSmeltConfig().getNetherScrapExp());
+    		}
+    	}
+    	else {
+    		return false;
+    	}
+    	return true;
+    	
+    	
     }
 }

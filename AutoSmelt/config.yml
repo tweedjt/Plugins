@@ -11,8 +11,17 @@ auto_pickup: true
 #Drop exp orbs?
 exp_drops: true
 
-#Set the experience orb value for blocks
-exp_value: 1
+#Enable Fortune Drops for Fortune Pick?
+fortune_drops: true
+
+#Set the experience orb value for Iron
+iron_exp: 1
+
+#Set the experience orb value for Gold
+gold_exp: 1
+
+#Set the experience orb value for Netherite Scrap
+nether_scrap_exp: 2
 
 #On message for /as command
 autosmelt_on_message: AutoSmelt has been turned &aON

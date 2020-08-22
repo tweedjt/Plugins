@@ -6,8 +6,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/Tweed/Desktop/spigot-1.14.4 (4).jar"/>
-	<classpathentry kind="lib" path="C:/Users/Tweed/Desktop/worldedit-bukkit-7.0.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Tweed/Desktop/worldguard-bukkit-7.0.0 (2).jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tweed/Desktop/AutoSmelt Jars/Jobs4.16.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tweed/Desktop/AutoSmelt Jars/spigot-1.16.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tweed/Desktop/AutoSmelt Jars/worldedit-bukkit-7.2.0-beta-03.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tweed/Desktop/AutoSmelt Jars/worldguard-bukkit-7.0.4-beta1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
