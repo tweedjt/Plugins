@@ -1,0 +1,7 @@
+#                             #
+#   GoodbyeMobs by: tweedjt   #
+#                             #
+debug_logging: false
+
+#Set the radius around players with GBM on
+Protection_Radius: 25
