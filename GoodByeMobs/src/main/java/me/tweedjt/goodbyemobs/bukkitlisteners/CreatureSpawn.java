@@ -47,6 +47,11 @@ public class CreatureSpawn implements Listener {
                 }
             }
         }
+       // if (GoodbyeMobs.getInstance().getGoodByeMobsConfig().getKnockBack()){
+       //     entity.setVelocity(new Vector(-10, 0, 0));
+       // } else {
+       //     Delete Code
+       // }
     }
 
 }

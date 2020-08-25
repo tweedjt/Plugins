@@ -17,7 +17,8 @@ public class Timed {
             for (Entry<UUID, Boolean> BeGonePlayer : GoodbyeMobs.BeGone.entrySet()) {
                 Player player = Bukkit.getPlayer(BeGonePlayer.getKey());
                 if (player != null) {
-                    Collection<Entity> nearbyEntities = player.getLocation().getWorld().getNearbyEntities(player.getLocation(), 25, 25, 25);
+                    int r = GoodbyeMobs.getInstance().getGoodByeMobsConfig().getRadius();
+                    Collection<Entity> nearbyEntities = player.getLocation().getWorld().getNearbyEntities(player.getLocation(), r, r, r);
                     if (nearbyEntities != null)
                     {
                         for (Entity e : nearbyEntities) {
@@ -33,7 +34,7 @@ public class Timed {
                             }
                             if (isMonster) {
                                 int edist = (int) Math.round(player.getLocation().distance(e.getLocation()));
-                                if (edist < 25) {
+                                if (edist < r) {
                                     Log.debugToConsole("Timed - Run - Entity removed: " + e.getType().name());
                                     e.remove();
                                 }

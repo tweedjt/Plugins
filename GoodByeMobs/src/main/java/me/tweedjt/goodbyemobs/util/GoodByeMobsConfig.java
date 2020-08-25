@@ -4,11 +4,15 @@ import me.tweedjt.goodbyemobs.GoodbyeMobs;
 
 public class GoodByeMobsConfig {
 
+    private boolean getKnockBack = false;
     private int getRadius = 25;
     private String messagePrefix = "&6[&fAutoSmelt&6] &r";
 
-    public int getRadius() {
+    public boolean getKnockBack() {
+        return this.getKnockBack;
+    }
 
+    public int getRadius() {
         return this.getRadius;
     }
 
@@ -29,6 +33,21 @@ public class GoodByeMobsConfig {
             }
         } catch (Exception ex) {
             getRadius = 25;
+        }
+
+        //Knockback enabled?
+        try {
+            if (plugin.getConfig().contains("knockback_enabled")) {
+                if (plugin.getConfig().isString("knockback_enabled")) {
+                    this.getKnockBack = plugin.getConfig().getBoolean("knockback_enabled");
+                } else {
+                    getKnockBack = false;
+                }
+            } else {
+                getKnockBack = false;
+            }
+        } catch (Exception ex) {
+            getKnockBack = false;
         }
 
         // message_prefix
