@@ -14,8 +14,8 @@ import java.util.UUID;
 public class Spawned {
 
     public static void knockbackMob(Player player, Entity entity) {
-        // No idea what we're doing here for knockback
          MobsMisc.knockback(player, entity);
+        // No idea what we're doing here for knockback
     }
     public static void removeMob(Player player, Entity entity) {
         entity.remove();

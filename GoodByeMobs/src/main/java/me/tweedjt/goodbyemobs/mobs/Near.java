@@ -22,6 +22,11 @@ public class Near {
         }
     }
 
+    public static void knockbackMob(Player player, Entity entity) {
+        MobsMisc.knockback(player, entity);
+        // No idea what we're doing here for knockback
+    }
+
     private static Collection<Entity> getNearby(Player player) {
 
         //getting the radius, then returning the collection.  if there is no collection, returning null
@@ -69,11 +74,6 @@ public class Near {
             }
             }
         }
-    }
-
-    public static void knockbackMob(Player player, Entity entity) {
-        // No idea what we're doing here for knockback
-        MobsMisc.knockback(player, entity);
     }
 
 }
