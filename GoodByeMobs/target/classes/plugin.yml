@@ -2,8 +2,12 @@ name: GoodbyeMobs
 author: tweedjt
 version: 1.0
 api-version: 1.13
+depend: [WorldGuard]
 main: me.tweedjt.goodbyemobs.GoodbyeMobs
 commands:
   gbm:
     description: Adds or removes you from the GoodByeMobs list
     usage: /gbm
+  gbmreload:
+    description: Reloads the plugin
+    usage: /gbmreload

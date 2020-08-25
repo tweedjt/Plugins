@@ -5,3 +5,6 @@ debug_logging: false
 
 #Set the radius around players with GBM on
 Protection_Radius: 25
+
+#Message prefix for plugin
+message_prefix: "&d[&fGoodByeMobs&d] &r"

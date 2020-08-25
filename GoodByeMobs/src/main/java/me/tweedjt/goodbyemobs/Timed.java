@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.UUID;
 import java.util.Map.Entry;
 
-import me.tweedjt.goodbyemobs.util.Alert;
+import me.tweedjt.goodbyemobs.util.Log;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -34,7 +34,7 @@ public class Timed {
                             if (isMonster) {
                                 int edist = (int) Math.round(player.getLocation().distance(e.getLocation()));
                                 if (edist < 25) {
-                                    Alert.DebugLog("Timed", "Run", "Entity removed: " + e.getType().name());
+                                    Log.debugToConsole("Timed - Run - Entity removed: " + e.getType().name());
                                     e.remove();
                                 }
                             }
