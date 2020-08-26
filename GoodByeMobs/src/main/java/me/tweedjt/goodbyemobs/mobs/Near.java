@@ -14,21 +14,7 @@ import java.util.Map.Entry;
 
 public class Near {
 
-    public static void process() {
-        if (MobsMisc.isKnockback()) {
-          //  knockbackNearby();
-        } else {
-            removeNearby();
-        }
-    }
-
-    public static void knockbackMob(Player player, Entity entity) {
-        MobsMisc.knockback(player, entity);
-        // No idea what we're doing here for knockback
-    }
-
     private static Collection<Entity> getNearby(Player player) {
-
         //getting the radius, then returning the collection.  if there is no collection, returning null
         int r = GoodbyeMobs.getInstance().getGoodByeMobsConfig().getRadius();
         if (player != null) {
@@ -36,44 +22,47 @@ public class Near {
         } else {
             return null;
         }
-
     }
-    public static void removeNearby() {
-
+    public static void process() {
         if (GoodbyeMobs.BeGone != null) {
             // Loop through the players
             for (Entry<UUID, Boolean> BeGonePlayer : GoodbyeMobs.BeGone.entrySet()) {
                 // Get the player
                 Player player = Bukkit.getPlayer(BeGonePlayer.getKey());
                 if (player == null) {
+                    // Player is null, let's remove them from the map
+                    GoodbyeMobs.BeGone.remove(BeGonePlayer.getKey());
                     break;
                 }
                 // Get the nearby entities
                 Collection<Entity> nearbyEntities = getNearby(player);
                 if (nearbyEntities != null) {
                     // Loop through the entities
-                    for (Entity e : nearbyEntities) {
+                    for (Entity entity : nearbyEntities) {
                         // Check if it is a monster (or at least an entity we want to remove)
                         boolean isMonster = false;
-                        if (e instanceof Monster) {
+                        if (entity instanceof Monster) {
                             isMonster = true;
                         }
-                        if (e.getType() == EntityType.PHANTOM) {
+                        if (entity.getType() == EntityType.PHANTOM) {
                             isMonster = true;
                         }
-                        if (e.getType() == EntityType.BAT) {
+                        if (entity.getType() == EntityType.BAT) {
                             isMonster = true;
                         }
-                        // If it is, lets remove it
+                        // If it is a monster, lets remove it
                         if (isMonster) {
-                            e.remove();
+                            if (MobsMisc.isKnockback()) {
+                                // Knock the mob back
+                                MobsMisc.knockback(player, entity);
+                            } else {
+                                // Remove the mob
+                                MobsMisc.remove(player, entity);
+                            }
                         }
                     }
-                }else{
-                    GoodbyeMobs.BeGone.remove(BeGonePlayer.getKey());
-            }
+                }
             }
         }
     }
-
 }

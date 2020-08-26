@@ -13,14 +13,6 @@ import java.util.UUID;
 
 public class Spawned {
 
-    public static void knockbackMob(Player player, Entity entity) {
-         MobsMisc.knockback(player, entity);
-        // No idea what we're doing here for knockback
-    }
-    public static void removeMob(Player player, Entity entity) {
-        entity.remove();
-    }
-
     public static void process(Entity entity) {
         boolean isMonster = false;
         if (entity instanceof Monster) {
@@ -33,6 +25,7 @@ public class Spawned {
             isMonster = true;
         }
         if (!isMonster) {
+            // If it isn't a monster, exit out
             return;
         }
         if (GoodbyeMobs.getInstance().BeGone != null) {
@@ -43,9 +36,11 @@ public class Spawned {
                     return;
                 }
                 if (MobsMisc.isKnockback()) {
-                    knockbackMob(player, entity);
+                    // Knock the mob back
+                    MobsMisc.knockback(player, entity);
                 } else {
-                    removeMob(player, entity);
+                    // Remove the mob
+                    MobsMisc.remove(player, entity);
                 }
             }
         }
