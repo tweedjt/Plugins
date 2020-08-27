@@ -2,6 +2,7 @@ package me.tweedjt.goodbyemobs.mobs;
 
 import me.tweedjt.goodbyemobs.GoodbyeMobs;
 import me.tweedjt.goodbyemobs.mobs.MobsMisc;
+import me.tweedjt.goodbyemobs.util.Log;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -36,9 +37,11 @@ public class Spawned {
                     return;
                 }
                 if (MobsMisc.isKnockback()) {
+                   // Log.logToConsole("SPAWNED - Knockback is enabled");
                     // Knock the mob back
                     MobsMisc.knockback(player, entity);
                 } else {
+                   // Log.logToConsole("SPAWNED - Knockback is not enabled");
                     // Remove the mob
                     MobsMisc.remove(player, entity);
                 }

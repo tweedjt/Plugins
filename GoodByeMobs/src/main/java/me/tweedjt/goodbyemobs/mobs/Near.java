@@ -1,6 +1,7 @@
 package me.tweedjt.goodbyemobs.mobs;
 
 import me.tweedjt.goodbyemobs.GoodbyeMobs;
+import me.tweedjt.goodbyemobs.util.Log;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -53,9 +54,11 @@ public class Near {
                         // If it is a monster, lets remove it
                         if (isMonster) {
                             if (MobsMisc.isKnockback()) {
+                               // Log.logToConsole("NEAR - Knockback is enabled");
                                 // Knock the mob back
                                 MobsMisc.knockback(player, entity);
                             } else {
+                               // Log.logToConsole("NEAR - Knockback is not enabled");
                                 // Remove the mob
                                 MobsMisc.remove(player, entity);
                             }

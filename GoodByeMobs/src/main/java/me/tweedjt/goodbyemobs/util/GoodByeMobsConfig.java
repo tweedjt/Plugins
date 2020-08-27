@@ -5,7 +5,8 @@ import me.tweedjt.goodbyemobs.GoodbyeMobs;
 public class GoodByeMobsConfig {
 
     private boolean getKnockBack = false;
-    private int getRadius = 25;
+    private int Radius = 25;
+    private int RunTime = 5;
     private String messagePrefix = "&6[&fAutoSmelt&6] &r";
 
     public boolean getKnockBack() {
@@ -13,7 +14,11 @@ public class GoodByeMobsConfig {
     }
 
     public int getRadius() {
-        return this.getRadius;
+        return this.Radius;
+    }
+
+    public int getRunTime() {
+        return this.RunTime;
     }
 
     public String getMessagePrefix() {
@@ -24,21 +29,35 @@ public class GoodByeMobsConfig {
         try {
             if (plugin.getConfig().contains("Protection_Radius")) {
                 if (plugin.getConfig().isInt("Protection_Radius")) {
-                    this.getRadius = plugin.getConfig().getInt("Protection_Radius");
+                    this.Radius = plugin.getConfig().getInt("Protection_Radius");
                 } else {
-                    getRadius = 25;
+                    Radius = 25;
                 }
             } else {
-                getRadius = 25;
+                Radius = 25;
             }
         } catch (Exception ex) {
-            getRadius = 25;
+            Radius = 25;
+        }
+
+        try {
+            if (plugin.getConfig().contains("Run_Time")) {
+                if (plugin.getConfig().isInt("Run_Time")) {
+                    this.RunTime = plugin.getConfig().getInt("Run_Time");
+                } else {
+                    RunTime = 5;
+                }
+            } else {
+                RunTime = 5;
+            }
+        } catch (Exception ex) {
+            RunTime = 5;
         }
 
         //Knockback enabled?
         try {
             if (plugin.getConfig().contains("knockback_enabled")) {
-                if (plugin.getConfig().isString("knockback_enabled")) {
+                if (plugin.getConfig().isBoolean("knockback_enabled")) {
                     this.getKnockBack = plugin.getConfig().getBoolean("knockback_enabled");
                 } else {
                     getKnockBack = false;

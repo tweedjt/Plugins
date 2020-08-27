@@ -6,6 +6,9 @@ debug_logging: false
 #Set the radius around players with GBM on
 Protection_Radius: 25
 
+#Sets the time that mobs are deleted/knocked back
+Run_Time: 5
+
 #Enable Knockback on mobs instead of deleting them
 knockback_enabled: false
 

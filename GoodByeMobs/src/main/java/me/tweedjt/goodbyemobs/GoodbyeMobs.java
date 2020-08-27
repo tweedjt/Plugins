@@ -90,9 +90,10 @@ public class GoodbyeMobs extends JavaPlugin implements Listener {
     try {
         BukkitTask task = new BukkitRunnable() {
             public void run() {
+                //Log.logToConsole("Timer");
                 Timed.Run();
             }
-        }.runTaskTimer(this, 0, 5 * 20);
+        }.runTaskTimer(this, 0, getGoodByeMobsConfig().getRunTime() * 20);
         Log.debugToConsole("Main - Timed task: " + (task.getTaskId()));
     } catch (Exception ex) {
         Log.debugToConsole("Main - Unexpected error: " + ex.getMessage());
