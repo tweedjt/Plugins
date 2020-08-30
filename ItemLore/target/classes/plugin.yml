@@ -1,0 +1,12 @@
+name: ItemLore
+author: tweedjt
+version: 1.0
+api-version: 1.13
+main: me.tweedjt.itemlore.ItemLore
+commands:
+  lore:
+    description: Command to use ItemLore
+    usage: /lore
+  loreload:
+    description: Reloads the plugin
+    usage: /loreload

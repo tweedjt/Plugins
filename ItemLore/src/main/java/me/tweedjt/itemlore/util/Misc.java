@@ -1,4 +1,4 @@
-package me.tweedjt.goodbyemobs.util;
+package me.tweedjt.itemlore.util;
 import org.bukkit.ChatColor;
 
 public class Misc {

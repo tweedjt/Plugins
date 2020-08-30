@@ -1,0 +1,9 @@
+#                             #
+#   ItemLore by: tweedjt   #
+#                             #
+debug_logging: false
+
+
+#Message prefix for plugin
+message_prefix: "&d[&fItemLore&d] &r"
+
