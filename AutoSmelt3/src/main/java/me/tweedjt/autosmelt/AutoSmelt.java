@@ -1,8 +1,7 @@
 package me.tweedjt.autosmelt;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
@@ -22,10 +21,10 @@ import me.tweedjt.autosmelt.util.Log;
 import me.tweedjt.autosmelt.util.Misc;
 
 
+@SuppressWarnings("ALL")
 public class AutoSmelt extends JavaPlugin {
-
     // This is the main class
-
+   // public static AutoSmelt plugin;
     // Debug - set to true for debugging
     private final boolean debug = false;
     public boolean getDebug() {
@@ -124,7 +123,7 @@ public class AutoSmelt extends JavaPlugin {
     // On startup
     @Override
     public void onEnable() {
-
+        
         instance = this;
 
         saveDefaultConfig();
@@ -138,8 +137,6 @@ public class AutoSmelt extends JavaPlugin {
         }
 
         Log.logToConsole("Starting AutoSmelt");
-
-        instance = this; // Setting the instance to this
 
         // Add command listeners
         try {

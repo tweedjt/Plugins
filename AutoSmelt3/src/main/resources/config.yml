@@ -32,3 +32,31 @@ autosmelt_off_message: AutoSmelt has been turned &aOFF
 #Message prefix for plugin
 message_prefix: "&d[&fAutoSmelt&d] &r"
 
+
+  #Block Configuration (You may add more than one drop for a randomized list)
+blocks:
+  IRON_ORE:
+     - IRON_INGOT
+#     - DIRT
+#     - DIAMOND
+  GOLD_ORE:
+     - GOLD_INGOT
+  COPPER_ORE:
+     - COPPER_INGOT
+  DEEPSLATE_IRON_ORE:
+     - IRON_INGOT
+  DEEPSLATE_GOLD_ORE:
+     - GOLD_INGOT
+  DEEPSLATE_COPPER_ORE:
+     - COPPER_INGOT
+  ANCIENT_DEBRIS:
+     - NETHERITE_SCRAP
+
+
+#Are random drops enabled?
+random_drop_amount: TRUE
+
+#the max amount the blocks can drop | From MIN-NUMBER-MAX-NUMBER
+Max-drop-amount: 4
+Min-drop-amount: 2
+

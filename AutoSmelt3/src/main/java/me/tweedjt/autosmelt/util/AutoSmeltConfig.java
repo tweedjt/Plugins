@@ -1,7 +1,10 @@
 package me.tweedjt.autosmelt.util;
 
+import com.sun.org.apache.xerces.internal.xs.StringList;
 import me.tweedjt.autosmelt.AutoSmelt;
+import org.bukkit.configuration.file.FileConfiguration;
 
+@SuppressWarnings("ALL")
 public class AutoSmeltConfig {
 
     private boolean autoPickup = false;
@@ -14,41 +17,63 @@ public class AutoSmeltConfig {
     private String messagePrefix = "&6[&fAutoSmelt&6] &r";
     private String autoSmeltOffMessage = "AutoSmelt has been turned off";
     private String autoSmeltOnMessage = "AutoSmelt has been turned on";
+    //NEW CODE
+    private boolean dropAmount = false;
+    private int maxDropAmount = 2;
+    private int minDropAmount = 1;
 
     public boolean getAutoPickup() {
         return this.autoPickup;
     }
+
     public boolean getAutoSmelt() {
         return this.autoSmelt;
     }
+
     public boolean getExpDrops() {
         return this.expDrop;
     }
+
     public boolean getFortuneDrops() {
         return this.fortuneDrop;
     }
+
     public int getIronExp() {
         return this.ironExp;
     }
+
     public int getGoldExp() {
         return this.goldExp;
     }
+
     public int getNetherScrapExp() {
         return this.netherScrapExp;
     }
+
     public String getMessagePrefix() {
         return this.messagePrefix;
     }
+
     public String getAutoSmeltOnMessage() {
         return this.autoSmeltOffMessage;
     }
+
     public String getAutoSmeltOffMessage() {
         return this.autoSmeltOnMessage;
     }
 
+    //NEW CODE
+    public boolean getDropAmount() { return this.dropAmount; }
+
+    public int getMaxDropAmount() { return this.maxDropAmount; }
+
+    public int getMinDropAmount() { return this.minDropAmount; }
 
 
+    @SuppressWarnings("ConstantConditions")
     public AutoSmeltConfig(AutoSmelt plugin) {
+
+        FileConfiguration config = plugin.getConfig();
 
         //AutoSmelt default
         try {
@@ -63,6 +88,22 @@ public class AutoSmeltConfig {
         }
         catch (Exception ex) {
             autoSmelt = true;
+        }
+
+
+        //Random Drop Amount
+        try {
+            if (plugin.getConfig().contains("random_drop_amount"))
+            {
+                if (plugin.getConfig().isBoolean("random_drop_amount")) {
+                    this.dropAmount = plugin.getConfig().getBoolean("random_drop_amount");
+                } else {
+                    dropAmount = false;
+                }
+            }
+        }
+        catch (Exception ex) {
+            dropAmount = true;
         }
 
 
@@ -109,7 +150,6 @@ public class AutoSmeltConfig {
         catch (Exception ex) {
             fortuneDrop = true;
         }
-
 
         // message_prefix
         try {
@@ -168,8 +208,39 @@ public class AutoSmeltConfig {
         } catch (Exception ex) {
             autoSmeltOnMessage = "AutoSmelt has been turned on";
             // Unexpected error getting message_prefix. (Use ex.getMessage() to get error)
-
         }
+            //INTEGERS
+
+        try {
+            if (plugin.getConfig().contains("Max-drop-amount"))
+            {
+                if (plugin.getConfig().isInt("Max-drop-amount")) {
+                    this.maxDropAmount = plugin.getConfig().getInt("Max-drop-amount");
+                } else {
+                    maxDropAmount = 2;
+                }
+            } else {
+                maxDropAmount = 2;
+            }
+        } catch (Exception ex) {
+            maxDropAmount = 2;
+        }
+
+        try {
+            if (plugin.getConfig().contains("Min-drop-amount"))
+            {
+                if (plugin.getConfig().isInt("Min-drop-amount")) {
+                    this.minDropAmount = plugin.getConfig().getInt("Min-drop-amount");
+                } else {
+                    minDropAmount = 1;
+                }
+            } else {
+                minDropAmount = 1;
+            }
+        } catch (Exception ex) {
+            minDropAmount = 1;
+        }
+
         try {
             if (plugin.getConfig().contains("iron_exp"))
             {
