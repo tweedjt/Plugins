@@ -1,5 +1,7 @@
 package me.tweedjt.autosmelt.util;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -7,13 +9,9 @@ import java.util.UUID;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.Flags;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
@@ -48,6 +46,108 @@ public class Misc {
         }
         return false;
     }
+
+    /**
+     * uuidFromString(String)
+     * Converts a string value to a UUID.  Returns null if invalid
+     * @param uuid String value of the UUID
+     * @return UUID
+     */
+    public static UUID uuidFromString(String uuid) {
+        if (uuid.trim().equals("")) {
+            return null;
+        }
+        try {
+            return UUID.fromString(uuid);
+        } catch (IllegalArgumentException iae) {
+            Log.error(
+                    1,
+                    "Misc",
+                    "uuidFromString",
+                    "Unable to cast " + uuid + " to UUID",
+                    iae.getMessage(),
+                    Log.Severity.CRITICAL,
+                    iae.getStackTrace()
+            );
+            return null;
+        } catch (Exception ex) {
+            Log.error(
+                    2,
+                    "Misc",
+                    "uuidFromString",
+                    "Unable to cast " + uuid + " to UUID",
+                    ex.getMessage(),
+                    Log.Severity.CRITICAL,
+                    ex.getStackTrace()
+            );
+            return null;
+        }
+
+    }
+
+
+    /**
+     * Gets a color by name
+     * @param name Color to lookup
+     * @return Color requested, WHITE if not found
+     */
+    public static Color colorFromName(String name) {
+        Color ret;
+        switch (name)
+        {
+            case "AQUA" :
+                ret = Color.AQUA;
+                break;
+            case "BLACK" :
+                ret = Color.BLACK;
+                break;
+            case "BLUE" :
+                ret = Color.BLUE;
+                break;
+            case "FUCHSIA" :
+                ret = Color.FUCHSIA;
+                break;
+            case "GRAY" :
+                ret = Color.GRAY;
+                break;
+            case "GREEN" :
+                ret = Color.GREEN;
+                break;
+            case "LIME" :
+                ret = Color.LIME;
+                break;
+            case "MAROON" :
+                ret = Color.MAROON;
+                break;
+            case "NAVY" :
+                ret = Color.NAVY;
+                break;
+            case "OLIVE" :
+                ret = Color.OLIVE;
+                break;
+            case "ORANGE" :
+                ret = Color.ORANGE;
+                break;
+            case "PURPLE" :
+                ret = Color.PURPLE;
+                break;
+            case "SILVER" :
+                ret = Color.SILVER;
+                break;
+            case "TEAL" :
+                ret = Color.TEAL;
+                break;
+            case "YELLOW" :
+                ret = Color.YELLOW;
+                break;
+            case "WHITE" :
+            default:
+                ret = Color.WHITE;
+                break;
+        }
+        return ret;
+    }
+
     public static String colorToString(String input) {
         // &0 = black, &1 = dark blue, &2 = dark green, &3 = dark aqua, &4 = dark red, &5 = dark purple
         // &6 = gold, &7 = gray, &8 = dark gray, &9 = blue, &a = green, &b = aqua, &c = red
@@ -122,5 +222,72 @@ public class Misc {
         return true;
 
 
+    }
+
+    /**
+     * Gets the config.yml file - If not found, will try to create from resources, if not found there
+     * will create a new blank file
+     * @return Config File object
+     */
+    public static File getConfigYml(AutoSmelt plugin) {
+        File configFile = new File(
+                plugin.getDataFolder() +
+                        File.separator +
+                        "config.yml"
+        );
+        if (!configFile.exists()) {
+            if (plugin.getResource("config.yml") != null) {
+                plugin.saveResource("config.yml", false);
+            } else {
+                try {
+                    configFile.createNewFile();
+                    FileConfiguration configuration = YamlConfiguration.loadConfiguration(configFile);
+                    try {
+                        configuration.save(configFile);
+                    } catch (IOException e) {
+                        Log.error(
+                                1,
+                                "Misc",
+                                "getConfigYml",
+                                "Unexpected Error getting Config",
+                                e.getMessage(),
+                                Log.Severity.URGENT,
+                                e.getStackTrace()
+                        );
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return configFile;
+    }
+
+    /**
+     * Gets the Material from its name.  Returns AIR if not valid.
+     * @param materialName Material name to lookup
+     * @return Material from name, Material.AIR if not valid.
+     */
+    public static Material materialFromName(String materialName) {
+        Material mat;
+        if (materialName != null) {
+            try {
+                mat = Material.getMaterial(materialName);
+            } catch (Exception ex) {
+                Log.error(
+                        1,
+                        "Misc",
+                        "materialFromName",
+                        "Item does not match a material",
+                        "Name: " + materialName,
+                        Log.Severity.WARN,
+                        ex.getStackTrace()
+                );
+                mat = Material.AIR;
+            }
+        } else{
+            mat = Material.AIR;
+        }
+        return mat;
     }
 }

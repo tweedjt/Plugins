@@ -1,5 +1,6 @@
 package me.tweedjt.autosmelt.commands;
 
+import me.tweedjt.autosmelt.AutoSmelt;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -13,10 +14,19 @@ import me.tweedjt.autosmelt.util.Message;
 
 public class SmeltCommandListener  implements CommandExecutor {
 
+    private AutoSmelt plugin;
+
     // This class handles the /as command
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+
+        // Create a variable to hold our instance
+        this.plugin = AutoSmelt.getInstance();
+        // Create a local copy of SmeltFunctions with the instance passed to it
+        // we'll use this copy (smeltFunctions) to call our functions, NOT SmeltFunctions
+        SmeltFunctions smeltFunctions = new SmeltFunctions(plugin);
+
         int iargs = 0;
         if (args != null) {
             if (args.length > 0) {
@@ -56,7 +66,7 @@ public class SmeltCommandListener  implements CommandExecutor {
                     }
                     if (recipient != null) {
                         if (sender.hasPermission("autosmelt.give")) {
-                            if (SmeltFunctions.giveSmeltingPickToPlayer(recipient)) {
+                            if (smeltFunctions.giveSmeltingPickToPlayer(recipient)) {
                                 Message.toSender("&a" + recipient.getDisplayName() + " was given a Smelting Pickaxe", sender);
                                 return true;
                             } else {

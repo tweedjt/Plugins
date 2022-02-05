@@ -24,8 +24,16 @@ import me.tweedjt.autosmelt.util.Misc;
 @SuppressWarnings("ALL")
 public class BlockListener implements Listener {
 
+    private AutoSmelt plugin;
+
     @EventHandler
     public void onInteract(BlockBreakEvent event) {
+
+        // Create a variable to hold our instance
+        this.plugin = AutoSmelt.getInstance();
+        // Create a local copy of SmeltFunctions with the instance passed to it
+        // we'll use this copy (smeltFunctions) to call our functions, NOT SmeltFunctions
+        SmeltFunctions smeltFunctions = new SmeltFunctions(plugin);
 
         Player player = event.getPlayer();
 
@@ -44,93 +52,82 @@ public class BlockListener implements Listener {
 
         // START NEW CODE HERE
 
-        int DropMaxAmount = AutoSmelt.getInstance().getAutoSmeltConfig().getMaxDropAmount(); //Max amount to drop from config
-        int DropMinAmount = AutoSmelt.getInstance().getAutoSmeltConfig().getMinDropAmount(); //Min amount to drop from config
-        
-         //int finalDropAmount = dropAmount;
-
-        AutoSmelt.getInstance().getConfig().getConfigurationSection("blocks").getKeys(false).forEach(key -> {
-
-            if (key.equalsIgnoreCase(event.getBlock().getType().toString())) {
-                Log.logToConsole("List Found");
-                ItemStack[] items = new ItemStack[AutoSmelt.getInstance().getConfig().getStringList("blocks" + key).size()];
-                ItemStack item = null;
-                int position = 0;
-                for (String i : AutoSmelt.getInstance().getConfig().getStringList("blocks" + key)) { //Reads down the blocks option in config
-                    Log.logToConsole("reading block list");
-                    try {
-                        item = new ItemStack(Material.matchMaterial(i), 1); //drops item they chose
-                        Log.logToConsole("Dropping item");
-                    } catch(Exception e) {
-                        item = new ItemStack(Material.matchMaterial(key)); //give back item they mined if they spell wrong
-                    Log.logToConsole("Error couldnt drop item");
-                    }
-                    items[position] = item;
-                    position++;
-                }
-            }
-
-        });
-
-             /*   if(AutoSmelt.getInstance().getAutoSmeltConfig().getDropAmount() == true) {
-                Log.logToConsole("doin teh mafs");
-                   dropAmount = rand.nextInt(DropMaxAmount + DropMinAmount + 1);
-                } else {
-                    dropAmount = 1;
-                    Log.logToConsole("Math too hard");
-                } */
-
-        /*
-        Check for blocks section
-        Check BlockList in blocks section
-        if player mines block stated in config then check droplist for drops from corresponding block, set original drop to air, drop item
-        blocks:
-            IRON_ORE:
-                - IRON_INGOT
-         */
-        //create command to add blocks and drops to list/config in game
+        // NOTE: We have a local copy of "plugin" now (our instantiated copy of AutoSmelt)
+        int dropMaxAmount = plugin.getAutoSmeltConfig().getMaxDropAmount(); // Max amount to drop from config
+        int dropMinAmount = plugin.getAutoSmeltConfig().getMinDropAmount(); // Min amount to drop from config
 
 
 
-        // END CODE HERE
-
-
-
-
-
-
-        /* Check the block being broken, if it isn't gold ore or iron ore, return out
+        // Look at the block being broken, based on the type, check the drops from the config
+        // if they exist, we will do a random entry from the list, if not, we'll default to
+        // a value.  If it isn't a block we're expeciting, we'll simply break out
         switch (event.getBlock().getType()) {
             case GOLD_ORE:
-                //Log.logToConsole("Block at location is Gold Ore");
-                drop = Material.GOLD_INGOT;
-                break;
-            case IRON_ORE:
-                //Log.logToConsole("Block at location is Iron Ore");
-                drop = Material.IRON_INGOT;
-                break;
-            case ANCIENT_DEBRIS:
-                drop = Material.NETHERITE_SCRAP;
+                List<Material> goldDrops = new ArrayList<>(plugin.getAutoSmeltConfig().goldDrops());
+                if (goldDrops.size() > 0) {
+                    drop = goldDrops.get(rand.nextInt(goldDrops.size())); // NOTE: Test this, we might need to do a -1.  This should get a random entry from our drops list
+                } else {
+                    // None listed, default
+                    drop = Material.GOLD_INGOT;
+                }
                 break;
             case DEEPSLATE_GOLD_ORE:
-                //Log.logToConsole("Block at location is Deepslate Gold Ore");
-                drop = Material.GOLD_INGOT;
+                List<Material> deepSlateGoldDrops = new ArrayList<>(plugin.getAutoSmeltConfig().deepSlateGoldDrops());
+                if (deepSlateGoldDrops.size() > 0) {
+                    drop = deepSlateGoldDrops.get(rand.nextInt(deepSlateGoldDrops.size())); // NOTE: Test this, we might need to do a -1.  This should get a random entry from our drops list
+                } else {
+                    // None listed, default
+                    drop = Material.GOLD_INGOT;
+                }
+                break;
+            case IRON_ORE:
+                List<Material> ironDrops = new ArrayList<>(plugin.getAutoSmeltConfig().ironDrops());
+                if (ironDrops.size() > 0) {
+                    drop = ironDrops.get(rand.nextInt(ironDrops.size())); // NOTE: Test this, we might need to do a -1.  This should get a random entry from our drops list
+                } else {
+                    // None listed, default
+                    drop = Material.IRON_INGOT;
+                }
                 break;
             case DEEPSLATE_IRON_ORE:
-                drop = Material.IRON_INGOT;
+                List<Material> deepSlateIronDrops = new ArrayList<>(plugin.getAutoSmeltConfig().deepSlateIronDrops());
+                if (deepSlateIronDrops.size() > 0) {
+                    drop = deepSlateIronDrops.get(rand.nextInt(deepSlateIronDrops.size())); // NOTE: Test this, we might need to do a -1.  This should get a random entry from our drops list
+                } else {
+                    // None listed, default
+                    drop = Material.IRON_INGOT;
+                }
                 break;
             case COPPER_ORE:
-                drop = Material.COPPER_INGOT;
-                dropAmount = rand.nextInt(1 + 3) + 1;
+                List<Material> copperDrops = new ArrayList<>(plugin.getAutoSmeltConfig().copperDrops());
+                if (copperDrops.size() > 0) {
+                    drop = copperDrops.get(rand.nextInt(copperDrops.size())); // NOTE: Test this, we might need to do a -1.  This should get a random entry from our drops list
+                } else {
+                    // None listed, default
+                    drop = Material.COPPER_INGOT;
+                }
                 break;
             case DEEPSLATE_COPPER_ORE:
-                drop = Material.COPPER_INGOT;
-                dropAmount = rand.nextInt(1 + 3) + 1;
+                List<Material> deepSlateCopperDrops = new ArrayList<>(plugin.getAutoSmeltConfig().deepSlateCopperDrops());
+                if (deepSlateCopperDrops.size() > 0) {
+                    drop = deepSlateCopperDrops.get(rand.nextInt(deepSlateCopperDrops.size())); // NOTE: Test this, we might need to do a -1.  This should get a random entry from our drops list
+                } else {
+                    // None listed, default
+                    drop = Material.COPPER_INGOT;
+                }
+                break;
+            case ANCIENT_DEBRIS:
+                List<Material> ancientDebrisDrops = new ArrayList<>(plugin.getAutoSmeltConfig().ancientDebrisDrops());
+                if (ancientDebrisDrops.size() > 0) {
+                    drop = ancientDebrisDrops.get(rand.nextInt(ancientDebrisDrops.size())); // NOTE: Test this, we might need to do a -1.  This should get a random entry from our drops list
+                } else {
+                    // None listed, default
+                    drop = Material.NETHERITE_SCRAP;
+                }
                 break;
             default:
-                // It isn't gold or iron ore, exit out
                 return;
-        } */
+        }
 
         if (Misc.worldGuardPreventBreakAtLocation(event.getBlock(), event.getPlayer())) {
             // If WorldGuard is blocking the breaking here, exit out
@@ -156,7 +153,7 @@ public class BlockListener implements Listener {
                 break;
         }
 
-        if (SmeltFunctions.isSmeltingPick(hand)) {
+        if (smeltFunctions.isSmeltingPick(hand)) {
             // We have a smelting pick, we don't need permissions
             //Log.debugToConsole("Player has a Smelting Pick");
             allowAutoSmelt = true;
@@ -167,7 +164,7 @@ public class BlockListener implements Listener {
             if (event.getPlayer().hasPermission("autosmelt.mine") && hasPickaxe) {
                 //Log.debugToConsole("Player has permission and has a pickaxe");
                 // We have a pick and permission
-                if (AutoSmelt.getInstance().hasSmelt(event.getPlayer().getUniqueId())) {
+                if (plugin.getSmeltData().hasSmelt(event.getPlayer().getUniqueId())) {
                     // We have pick and permission, and autosmelting is turned on for this player
                     //Log.debugToConsole("AutoSmelting is turned on");
                     allowAutoSmelt = true;
@@ -257,7 +254,7 @@ public class BlockListener implements Listener {
             ItemMeta handMeta = hand.getItemMeta();
             if (handMeta instanceof Damageable) {
                 Damageable d = (Damageable) handMeta; // Create the damageable (make sure its org.bukkit.inventory.meta.Damageable and not Entity.Damageable)
-                d.setDamage(d.getDamage() + AutoSmelt.getInstance().getSmeltingDamage()); // Set the damage
+                d.setDamage(d.getDamage() + plugin.getSmeltData().getSmeltingDamage()); // Set the damage
                 hand.setItemMeta(handMeta); // Set the meta back to the itemstack
             }
 

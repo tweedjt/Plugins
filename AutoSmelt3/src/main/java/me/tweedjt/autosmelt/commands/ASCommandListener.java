@@ -1,5 +1,6 @@
 package me.tweedjt.autosmelt.commands;
 
+import me.tweedjt.autosmelt.data.SmeltData;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,6 +17,7 @@ public class ASCommandListener implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
+        SmeltData smeltData = new SmeltData(AutoSmelt.getInstance());
         //Log.logToConsole("/as command run"); // Comment this out for release
 
         // Put all the code in a try/catch block to avoid console errors
@@ -33,15 +35,15 @@ public class ASCommandListener implements CommandExecutor {
                         return true;
                     }
                     // Check if the player has auto-smelt turned on
-                    if (AutoSmelt.getInstance().hasSmelt(player.getUniqueId())) {
+                    if (smeltData.hasSmelt(player.getUniqueId())) {
                         //Log.logToConsole("Player has smelt on - turn it off"); // Comment this out for release
                         // Player already has smelt on - turn it off
-                        AutoSmelt.getInstance().removeSmelt(player.getUniqueId());
+                        smeltData.removeSmelt(player.getUniqueId());
                         Message.toPlayer(AutoSmelt.getInstance().getAutoSmeltConfig().getAutoSmeltOnMessage(), player);
                     } else {
                         //Log.logToConsole("Player has smelt off - turn it on"); // Comment this out for release
                         // Player already has smelt on - turn it off
-                        AutoSmelt.getInstance().putSmelt(player.getUniqueId());
+                        smeltData.putSmelt(player.getUniqueId());
                         Message.toPlayer(AutoSmelt.getInstance().getAutoSmeltConfig().getAutoSmeltOffMessage(), player);
                     }
                 } else {

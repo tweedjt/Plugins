@@ -1,9 +1,6 @@
 package me.tweedjt.autosmelt;
-
-import java.util.*;
-
+import me.tweedjt.autosmelt.data.SmeltData;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -18,68 +15,11 @@ import me.tweedjt.autosmelt.commands.ASCommandListener;
 import me.tweedjt.autosmelt.commands.SmeltCommandListener;
 import me.tweedjt.autosmelt.util.AutoSmeltConfig;
 import me.tweedjt.autosmelt.util.Log;
-import me.tweedjt.autosmelt.util.Misc;
 
-
-@SuppressWarnings("ALL")
+//@SuppressWarnings("ALL")  // NOTE: Do not suppress warnings unless you HAVE to
 public class AutoSmelt extends JavaPlugin {
-    // This is the main class
-   // public static AutoSmelt plugin;
-    // Debug - set to true for debugging
-    private final boolean debug = false;
-    public boolean getDebug() {
-        return debug;
-    }
 
-    // Create a HashSet of player unique id values, if the player is in this list, auto-smelt is on
-    private HashSet<UUID> smelters = new HashSet<UUID>();
-
-    // This is the name of the smelting pick
-    private final String smeltingPickName = "Smelting Pick";
-    public String getSmeltingPickaxeName() {
-        return smeltingPickName;
-    }
-    // This is the lore for the smelting pick - note that it uses SmeltFunctions.stringToLore,
-    // this allows using | as a line break.  Also, note the use of &d - this is a color code
-    // that we will convert to a color.  This is done through SmeltFunctions.colorToString,
-    // but we don't need to call that here as SmeltFunctions.stringToLore calls it.
-    private final List<String> smeltingLore = Misc.stringToLore("&dAutomatically smelts ores!|Fortune will increase yield") ;
-    public List<String> getSmeltingPickAxeLore() {
-        return smeltingLore;
-    }
-    // This is the smelting pick material
-    private final Material smeltingPickAxeMaterial = Material.DIAMOND_PICKAXE;
-    public Material getSmeltingPickAxeMaterial() {
-        return smeltingPickAxeMaterial;
-    }
-    // This is the amount of damage to cause to the pick each use
-    private final int smeltingDamage = 1;
-    public int getSmeltingDamage() {
-        return smeltingDamage;
-    }
-
-    // Create a check to see iff they have auto-smelt, and getters and setters
-    public boolean hasSmelt(UUID uuid) {
-        if (smelters == null) {
-            // If for some reason smelters is null, set it as a blank HashSet
-            smelters = new HashSet<UUID>();
-        }
-        return smelters.contains(uuid);
-    }
-    public void putSmelt(UUID uuid) {
-        if (smelters == null) {
-            // If for some reason smelters is null, set it as a blank HashSet
-            smelters = new HashSet<UUID>();
-        }
-        smelters.add(uuid);
-    }
-    public void removeSmelt(UUID uuid) {
-        if (smelters == null) {
-            // If for some reason smelters is null, set it as a blank HashSet
-            smelters = new HashSet<UUID>();
-        }
-        smelters.remove(uuid);
-    }
+    // NOTE: Moved all the data elements to data\SmeltData (keep your main class clean!)
 
     // Instance
     // Create an instance of the main class so we can call it from other classes
@@ -88,7 +28,20 @@ public class AutoSmelt extends JavaPlugin {
         return instance;
     }
 
+    // Create a variable holding our data class, we'll set this in the onEnable
+    private SmeltData smeltData;
+    public SmeltData getSmeltData() { return this.smeltData; }
 
+    // NOTE: Moved this near the top for ease of reading
+    private AutoSmeltConfig config;
+    public AutoSmeltConfig getAutoSmeltConfig() {
+        return this.config;
+    }
+    public void setAutoSmeltConfig(AutoSmeltConfig config) {
+        this.config = config;
+    }
+
+    // TODO: Move WorldGuard lookups to their own class
     private WorldGuardPlugin wg;
     private WorldEditPlugin we;
     private boolean hasWorldGuard = false;
@@ -126,6 +79,10 @@ public class AutoSmelt extends JavaPlugin {
         
         instance = this;
 
+        // Populate our data class with a new instance, but pass in "this" which is our existing instance
+        // this will help avoid static abuse
+        this.smeltData = new SmeltData(this);
+
         saveDefaultConfig();
 
         config = new AutoSmeltConfig(this);
@@ -161,13 +118,7 @@ public class AutoSmelt extends JavaPlugin {
 
     }
 
-    private AutoSmeltConfig config;
-    public AutoSmeltConfig getAutoSmeltConfig() {
-        return this.config;
-    }
-    public void setAutoSmeltConfig(AutoSmeltConfig config) {
-        this.config = config;
-    }
+
 
     // On shutdown
     @Override

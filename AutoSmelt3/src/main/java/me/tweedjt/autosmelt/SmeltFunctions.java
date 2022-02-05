@@ -11,8 +11,18 @@ import me.tweedjt.autosmelt.util.Misc;
 
 public class SmeltFunctions {
 
+    private AutoSmelt plugin; // This is to hold our existing instance
 
-    public static boolean isSmeltingPick(ItemStack itemStack) {
+    /**
+     * Constructor for the class, takes in the instance of the plugin
+     * @param plugin Existing instance of AutoSmelt
+     */
+    public SmeltFunctions(AutoSmelt plugin) {
+        this.plugin = plugin; // Set the instance in this class = existing instance we've passed to it
+    }
+
+    //NOTE: Removed "static" - we'll be calling this from an instantiated copy
+    public boolean isSmeltingPick(ItemStack itemStack) {
         // Get the real pick
         ItemStack realPick = getSmeltingPick();
 
@@ -33,9 +43,11 @@ public class SmeltFunctions {
 
         ItemStack thisPick = new ItemStack(clonedThisPick.getType(), 1);
         ItemMeta thisPickMeta = thisPick.getItemMeta();
-        thisPickMeta.setDisplayName(itemMeta.getDisplayName());
-        thisPickMeta.setLore(itemMeta.getLore());
-        thisPick.setItemMeta(thisPickMeta);
+        if (thisPickMeta != null) {
+            thisPickMeta.setDisplayName(itemMeta.getDisplayName());
+            thisPickMeta.setLore(itemMeta.getLore());
+            thisPick.setItemMeta(thisPickMeta);
+        }
 
         // Get the string blob for the real smelting pick
         String realSmeltingPickBlob = Misc.itemToStringBlob(realPick);
@@ -54,22 +66,29 @@ public class SmeltFunctions {
             return false;
         }
     }
-    public static ItemStack getSmeltingPick() {
+
+    //NOTE: Removed "static" so we can use "plugin"
+    public ItemStack getSmeltingPick() {
         // Create a new ItemStack for the smelting pickaxe
-        ItemStack itemStack = new ItemStack(AutoSmelt.getInstance().getSmeltingPickAxeMaterial(), 1);
+        ItemStack itemStack = new ItemStack(plugin.getSmeltData().getSmeltingPickAxeMaterial(), 1);
         // Get the item meta
         ItemMeta itemMeta = itemStack.getItemMeta();
-        // Set the display name
-        itemMeta.setDisplayName(AutoSmelt.getInstance().getSmeltingPickaxeName());
-        // Set the lore
-        itemMeta.setLore(AutoSmelt.getInstance().getSmeltingPickAxeLore());
-        // Set the updated ItemMeta back to the ItemStack
-        itemStack.setItemMeta(itemMeta);
+
+        if (itemMeta != null) {
+            // Set the display name
+            itemMeta.setDisplayName(plugin.getSmeltData().getSmeltingPickaxeName());
+            // Set the lore
+            itemMeta.setLore(plugin.getSmeltData().getSmeltingPickAxeLore());
+            // Set the updated ItemMeta back to the ItemStack
+            itemStack.setItemMeta(itemMeta);
+        }
+
         // return the item
         return itemStack;
     }
 
-    public static boolean giveSmeltingPickToPlayer(Player player) {
+    //NOTE: Removed "static" so we can use "plugin"
+    public boolean giveSmeltingPickToPlayer(Player player) {
         if (player != null) {
             int itemSlot = Misc.firstEmptySlot(player.getUniqueId());
             if (itemSlot >= 0) {
