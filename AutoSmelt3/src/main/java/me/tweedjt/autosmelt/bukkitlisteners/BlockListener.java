@@ -39,7 +39,7 @@ public class BlockListener implements Listener {
 
         if (event.isCancelled()) {
             // Check if some other plugin cancelled the event, if so, do nothing
-            //Log.logToConsole("Event is already cancelled");
+            Log.logToConsole("Event is already cancelled"); //Disable on release
             return;
         }
         Block block = event.getBlock(); // Get the block being broken
@@ -57,7 +57,7 @@ public class BlockListener implements Listener {
         int dropMinAmount = plugin.getAutoSmeltConfig().getMinDropAmount(); // Min amount to drop from config
 
 
-
+        // TODO: Create command to add blocks and drops to their own class
         // Look at the block being broken, based on the type, check the drops from the config
         // if they exist, we will do a random entry from the list, if not, we'll default to
         // a value.  If it isn't a block we're expeciting, we'll simply break out
@@ -65,67 +65,82 @@ public class BlockListener implements Listener {
             case GOLD_ORE:
                 List<Material> goldDrops = new ArrayList<>(plugin.getAutoSmeltConfig().goldDrops());
                 if (goldDrops.size() > 0) {
-                    drop = goldDrops.get(rand.nextInt(goldDrops.size())); // NOTE: Test this, we might need to do a -1.  This should get a random entry from our drops list
+                    drop = goldDrops.get(rand.nextInt(goldDrops.size()));// NOTE: Test this, we might need to do a -1.  This should get a random entry from our drops list
+                    Log.logToConsole("GOLD ORE BROKEN"); //Disable on release
                 } else {
                     // None listed, default
                     drop = Material.GOLD_INGOT;
+                    Log.logToConsole("Return Statment for GOLD_ORE"); //Disable on release
                 }
                 break;
             case DEEPSLATE_GOLD_ORE:
                 List<Material> deepSlateGoldDrops = new ArrayList<>(plugin.getAutoSmeltConfig().deepSlateGoldDrops());
                 if (deepSlateGoldDrops.size() > 0) {
                     drop = deepSlateGoldDrops.get(rand.nextInt(deepSlateGoldDrops.size())); // NOTE: Test this, we might need to do a -1.  This should get a random entry from our drops list
+                    Log.logToConsole("DEEPSLATE GOLD ORE BROKEN"); //Disable on release
                 } else {
                     // None listed, default
                     drop = Material.GOLD_INGOT;
+                    Log.logToConsole("Return Statment for DEEPSLATE_GOLD_ORE"); //Disable on release
                 }
                 break;
             case IRON_ORE:
                 List<Material> ironDrops = new ArrayList<>(plugin.getAutoSmeltConfig().ironDrops());
                 if (ironDrops.size() > 0) {
                     drop = ironDrops.get(rand.nextInt(ironDrops.size())); // NOTE: Test this, we might need to do a -1.  This should get a random entry from our drops list
+                    Log.logToConsole("IRON ORE BROKEN"); //Disable on release
                 } else {
                     // None listed, default
                     drop = Material.IRON_INGOT;
+                    Log.logToConsole("Return Statment for IRON_ORE"); //Disable on release
                 }
                 break;
             case DEEPSLATE_IRON_ORE:
                 List<Material> deepSlateIronDrops = new ArrayList<>(plugin.getAutoSmeltConfig().deepSlateIronDrops());
                 if (deepSlateIronDrops.size() > 0) {
                     drop = deepSlateIronDrops.get(rand.nextInt(deepSlateIronDrops.size())); // NOTE: Test this, we might need to do a -1.  This should get a random entry from our drops list
+                    Log.logToConsole("DEEPSLATE IRON ORE BROKEN"); //Disable on release
                 } else {
                     // None listed, default
                     drop = Material.IRON_INGOT;
+                    Log.logToConsole("Return Statment for DEEPSLATE_IRON_ORE"); //Disable on release
                 }
                 break;
             case COPPER_ORE:
                 List<Material> copperDrops = new ArrayList<>(plugin.getAutoSmeltConfig().copperDrops());
                 if (copperDrops.size() > 0) {
                     drop = copperDrops.get(rand.nextInt(copperDrops.size())); // NOTE: Test this, we might need to do a -1.  This should get a random entry from our drops list
+                    Log.logToConsole("COPPER ORE BROKEN"); //Disable on release
                 } else {
                     // None listed, default
                     drop = Material.COPPER_INGOT;
+                    Log.logToConsole("Return Statment for COPPER_ORE"); //Disable on release
                 }
                 break;
             case DEEPSLATE_COPPER_ORE:
                 List<Material> deepSlateCopperDrops = new ArrayList<>(plugin.getAutoSmeltConfig().deepSlateCopperDrops());
                 if (deepSlateCopperDrops.size() > 0) {
                     drop = deepSlateCopperDrops.get(rand.nextInt(deepSlateCopperDrops.size())); // NOTE: Test this, we might need to do a -1.  This should get a random entry from our drops list
+                    Log.logToConsole("DEEPSLATE COPPER ORE BROKEN"); //Disable on release
                 } else {
                     // None listed, default
                     drop = Material.COPPER_INGOT;
+                    Log.logToConsole("Return Statment for DEEPSLATE_COPPER_ORE"); //Disable on release
                 }
                 break;
             case ANCIENT_DEBRIS:
                 List<Material> ancientDebrisDrops = new ArrayList<>(plugin.getAutoSmeltConfig().ancientDebrisDrops());
                 if (ancientDebrisDrops.size() > 0) {
                     drop = ancientDebrisDrops.get(rand.nextInt(ancientDebrisDrops.size())); // NOTE: Test this, we might need to do a -1.  This should get a random entry from our drops list
+                    Log.logToConsole("ANCIENT DEBRIS BROKEN"); //Disable on release
                 } else {
                     // None listed, default
                     drop = Material.NETHERITE_SCRAP;
+                    Log.logToConsole("Return Statment for ANCIENT_DEBRIS"); //Disable on release
                 }
                 break;
             default:
+                Log.logToConsole("DEFAULT STATEMENT FOR ORE SWITCH"); //Disable on release
                 return;
         }
 
@@ -146,10 +161,10 @@ public class BlockListener implements Listener {
             case WOODEN_PICKAXE:
             case NETHERITE_PICKAXE:
                 hasPickaxe = true;
-                // Log.debugToConsole("Tool in hand is pickaxe");
+                Log.debugToConsole("Tool in hand is pickaxe"); //Disable on release
                 break;
             default:
-                //	Log.debugToConsole("Tool in hand is not pickaxe");
+                Log.debugToConsole("Tool in hand is not pickaxe"); //Disable on release
                 break;
         }
 

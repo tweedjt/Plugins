@@ -1,6 +1,7 @@
 package me.tweedjt.autosmelt.data;
 
 import me.tweedjt.autosmelt.AutoSmelt;
+import me.tweedjt.autosmelt.util.Log;
 import me.tweedjt.autosmelt.util.Misc;
 import org.bukkit.Material;
 
@@ -52,7 +53,7 @@ public class SmeltData {
         return smeltingLore;
     }
     // This is the smelting pick material
-    private final Material smeltingPickAxeMaterial = Material.DIAMOND_PICKAXE;
+    private final Material smeltingPickAxeMaterial = Material.NETHERITE_PICKAXE;
     public Material getSmeltingPickAxeMaterial() {
         return smeltingPickAxeMaterial;
     }
@@ -62,11 +63,12 @@ public class SmeltData {
         return smeltingDamage;
     }
 
-    // Create a check to see iff they have auto-smelt, and getters and setters
+    // Create a check to see if they have auto-smelt, and getters and setters
     public boolean hasSmelt(UUID uuid) {
         if (smelters == null) {
             // If for some reason smelters is null, set it as a blank HashSet
             smelters = new HashSet<UUID>();
+            Log.logToConsole("Smelters contains UUID"); //Comment out on Release
         }
         return smelters.contains(uuid);
     }
@@ -74,6 +76,7 @@ public class SmeltData {
         if (smelters == null) {
             // If for some reason smelters is null, set it as a blank HashSet
             smelters = new HashSet<UUID>();
+            Log.logToConsole("Smeters add UUID"); //Comment out on Release
         }
         smelters.add(uuid);
     }
@@ -81,6 +84,7 @@ public class SmeltData {
         if (smelters == null) {
             // If for some reason smelters is null, set it as a blank HashSet
             smelters = new HashSet<UUID>();
+            Log.logToConsole("Smelters removed UUID"); //Comment out on Release
         }
         smelters.remove(uuid);
     }

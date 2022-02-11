@@ -16,10 +16,10 @@ import me.tweedjt.autosmelt.commands.SmeltCommandListener;
 import me.tweedjt.autosmelt.util.AutoSmeltConfig;
 import me.tweedjt.autosmelt.util.Log;
 
-//@SuppressWarnings("ALL")  // NOTE: Do not suppress warnings unless you HAVE to
+
 public class AutoSmelt extends JavaPlugin {
 
-    // NOTE: Moved all the data elements to data\SmeltData (keep your main class clean!)
+    // NOTE: Moved all the data elements to data\SmeltData
 
     // Instance
     // Create an instance of the main class so we can call it from other classes

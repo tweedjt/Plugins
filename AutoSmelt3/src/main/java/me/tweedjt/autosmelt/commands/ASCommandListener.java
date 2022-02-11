@@ -18,14 +18,14 @@ public class ASCommandListener implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         SmeltData smeltData = new SmeltData(AutoSmelt.getInstance());
-        //Log.logToConsole("/as command run"); // Comment this out for release
+        Log.logToConsole("/as command run"); // Comment this out for release
 
         // Put all the code in a try/catch block to avoid console errors
         try {
             if (sender != null) {
                 // Check if a player or console ran the command
                 if (sender instanceof Player) {
-                    //Log.logToConsole("Sender is a player"); // Comment this out for release
+                    Log.logToConsole("Sender is a player"); // Comment this out for release
                     // A player called it
                     Player player = (Player) sender;
 
@@ -36,12 +36,12 @@ public class ASCommandListener implements CommandExecutor {
                     }
                     // Check if the player has auto-smelt turned on
                     if (smeltData.hasSmelt(player.getUniqueId())) {
-                        //Log.logToConsole("Player has smelt on - turn it off"); // Comment this out for release
+                        Log.logToConsole("Player has smelt on - turn it off"); // Comment this out for release
                         // Player already has smelt on - turn it off
                         smeltData.removeSmelt(player.getUniqueId());
                         Message.toPlayer(AutoSmelt.getInstance().getAutoSmeltConfig().getAutoSmeltOnMessage(), player);
                     } else {
-                        //Log.logToConsole("Player has smelt off - turn it on"); // Comment this out for release
+                        Log.logToConsole("Player has smelt off - turn it on"); // Comment this out for release
                         // Player already has smelt on - turn it off
                         smeltData.putSmelt(player.getUniqueId());
                         Message.toPlayer(AutoSmelt.getInstance().getAutoSmeltConfig().getAutoSmeltOffMessage(), player);

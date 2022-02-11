@@ -10,7 +10,9 @@ import me.tweedjt.autosmelt.util.Log;
 
 
 public class PlayerListener implements Listener {
+
     SmeltData smeltData = new SmeltData(AutoSmelt.getInstance());
+
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         // This event is called when a player joins the server
@@ -18,7 +20,7 @@ public class PlayerListener implements Listener {
         if (event.getPlayer() != null) {
             // Check if the player has auto-smelt auto-on
             if (AutoSmelt.getInstance().getAutoSmeltConfig().getAutoSmelt()) {
-                // Auto-On is on, check if the player is already in the list, if not, add them
+                // AutoSmelt is on, check if the player is already in the list, if not, add them
                 if (!smeltData.hasSmelt(event.getPlayer().getUniqueId())) {
                     smeltData.putSmelt(event.getPlayer().getUniqueId());
                 }

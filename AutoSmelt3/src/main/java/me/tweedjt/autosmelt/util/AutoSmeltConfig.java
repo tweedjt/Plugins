@@ -366,7 +366,7 @@ public class AutoSmeltConfig {
     public Set<Material> deepSlateGoldDrops() { return this.deepSlateGoldDrops; }
     public Set<Material> copperDrops() { return this.copperDrops; }
     public Set<Material> deepSlateCopperDrops() { return this.deepSlateCopperDrops; }
-    public Set<Material> ancientDebrisDrops() { return this.ancientDebrisDrops(); }
+    public Set<Material> ancientDebrisDrops() { return this.netherScrapDrops; }
 
 
     /*
