@@ -39,7 +39,7 @@ public class BlockListener implements Listener {
 
         if (event.isCancelled()) {
             // Check if some other plugin cancelled the event, if so, do nothing
-            Log.logToConsole("Event is already cancelled"); //Disable on release
+            //Log.logToConsole("Event is already cancelled"); //Disable on release
             return;
         }
         Block block = event.getBlock(); // Get the block being broken

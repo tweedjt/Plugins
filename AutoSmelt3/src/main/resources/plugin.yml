@@ -1,7 +1,7 @@
 name: AutoSmelt
 author: tweedjt
-version: 1.9.7
-api-version: 1.19
+version: 2.0.0
+api-version: 1.16
 main: me.tweedjt.autosmelt.AutoSmelt
 commands:
   AutoSmelt:
